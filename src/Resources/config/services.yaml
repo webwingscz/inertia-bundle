@@ -1,0 +1,55 @@
+services:
+  Webwings\InertiaBundle\Service\InertiaInterface: '@inertia.service'
+
+  inertia.service:
+    class: Webwings\InertiaBundle\Service\InertiaService
+    public: false
+    arguments:
+      $engine: '@twig'
+      $requestStack: '@request_stack'
+      $serializer: '@serializer'
+      $rootView: '%inertia.root_view%'
+
+  inertia.subscriber.response:
+    class: Webwings\InertiaBundle\EventSubscriber\InertiaResponseSubscriber
+    public: false
+    tags:
+      - { name: kernel.event_listener, event: kernel.response }
+    arguments:
+      $debug: '%kernel.debug%'
+
+  inertia.subscriber.version:
+    class: Webwings\InertiaBundle\EventSubscriber\InertiaVersionSubscriber
+    public: false
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: -255 }
+    arguments:
+      $inertia: '@inertia.service'
+
+  inertia.subscriber.csrf:
+    class: Webwings\InertiaBundle\EventSubscriber\InertiaCsrfSubscriber
+    public: false
+    tags:
+      - { name: kernel.event_listener, event: kernel.request }
+      - { name: kernel.event_listener, event: kernel.response }
+    arguments:
+      $csrfTokenManager: '@security.csrf.token_manager'
+      $csrfEnabled: '%inertia.csrf.enabled%'
+      $csrfTokenName: '%inertia.csrf.token_name%'
+      $csrfHeaderName: '%inertia.csrf.header_name%'
+      $csrfCookieName: '%inertia.csrf.cookie.name%'
+      $csrfCookieExpire: '%inertia.csrf.cookie.expire%'
+      $csrfCookiePath: '%inertia.csrf.cookie.path%'
+      $csrfCookieDomain: '%inertia.csrf.cookie.domain%'
+      $csrfCookieSecure: '%inertia.csrf.cookie.secure%'
+      $csrfCookieRaw: '%inertia.csrf.cookie.raw%'
+      $csrfCookieSamesite: '%inertia.csrf.cookie.samesite%'
+
+  inertia.twig:
+    class: Webwings\InertiaBundle\Twig\InertiaTwigExtension
+    public: false
+    arguments:
+      $inertia: '@inertia.service'
+    tags:
+      - { name: twig.extension }
+
