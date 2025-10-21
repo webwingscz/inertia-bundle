@@ -16,6 +16,7 @@ use Twig\Environment;
 use Twig\Error\Error as TwigError;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\InertiaPage;
+use Webwings\InertiaBundle\Prop\PropInterface;
 
 class InertiaService implements InertiaInterface
 {
@@ -28,11 +29,15 @@ class InertiaService implements InertiaInterface
     protected string $rootView;
     protected string|null $version = null;
 
+    /**
+     * @param iterable<InertiaPropProviderInterface> $propProviders
+     */
     public function __construct(
         protected readonly Environment $engine,
         protected readonly RequestStack $requestStack,
         protected readonly SerializerInterface $serializer,
         string $rootView,
+        protected readonly iterable $propProviders = [],
     ) {
         $this->setRootView($rootView);
     }
@@ -103,6 +108,20 @@ class InertiaService implements InertiaInterface
     }
 
     /**
+     * @return array<string, PropInterface>
+     */
+    public function getProvidedProps(InertiaHeaders $headers): array
+    {
+        $props = [];
+
+        foreach ($this->propProviders as $propProvider) {
+            $props = [...$props, ...$propProvider->getInertiaProps($headers)];
+        }
+
+        return $props;
+    }
+
+    /**
      * @throws SerializerException
      * @throws TwigError
      */
@@ -119,7 +138,7 @@ class InertiaService implements InertiaInterface
         $headers = InertiaHeaders::fromRequest($request);
         $url = $url ?? $request->getRequestUri() ?: null;
         $viewData = [...$this->viewData, ...$viewData];
-        $props = [...$this->props, ...$props];
+        $props = [...$this->getProvidedProps($headers), ...$this->props, ...$props];
         $page = new InertiaPage(
             $headers,
             $component,

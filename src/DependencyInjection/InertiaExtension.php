@@ -10,6 +10,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
+use Webwings\InertiaBundle\Service\InertiaPropProviderInterface;
 
 class InertiaExtension extends ConfigurableExtension
 {
@@ -24,6 +25,10 @@ class InertiaExtension extends ConfigurableExtension
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.yaml');
+
+        $container
+            ->registerForAutoconfiguration(InertiaPropProviderInterface::class)
+            ->addTag('inertia.prop_provider');
 
         foreach (Arr::dot($mergedConfig, 'inertia.') as $key => $value) {
             $container->setParameter($key, $value);

@@ -9,6 +9,7 @@ services:
       $requestStack: '@request_stack'
       $serializer: '@serializer'
       $rootView: '%inertia.root_view%'
+      $propProviders: !tagged_iterator inertia.prop_provider
 
   inertia.subscriber.response:
     class: Webwings\InertiaBundle\EventSubscriber\InertiaResponseSubscriber
