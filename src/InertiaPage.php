@@ -12,7 +12,11 @@ use Webwings\InertiaBundle\Prop\DeferProp;
 use Webwings\InertiaBundle\Prop\MergeablePropInterface;
 use Webwings\InertiaBundle\Prop\PartialLoadPropInterface;
 use Webwings\InertiaBundle\Prop\PropInterface;
+use Webwings\InertiaBundle\Prop\ScrollProp;
 
+/**
+ * @phpstan-import-type ScrollPropMetadata from ScrollProp
+ */
 readonly class InertiaPage implements JsonSerializable
 {
     /** @var Collection<string, PropInterface> */
@@ -74,6 +78,7 @@ readonly class InertiaPage implements JsonSerializable
             'props' => $this->resolveProps(),
             ...$this->resolveMergeProps(),
             ...$this->resolveDeferredProps(),
+            ...$this->resolveScrollProps(),
         ];
     }
 
@@ -243,5 +248,24 @@ readonly class InertiaPage implements JsonSerializable
             ->pluck('key');
 
         return $deferredProps->isNotEmpty() ? ['deferredProps' => $deferredProps->toArray()] : [];
+    }
+
+    /**
+     * @return array{scrollProps?: array<string, ScrollPropMetadata>}
+     */
+    public function resolveScrollProps(): array
+    {
+        $resetProps = $this->headers->getResetProps();
+
+        /** @var Collection<string, ScrollProp> $scrollProps */
+        $scrollProps = $this
+            ->filterMergeableProps(false)
+            ->filter(fn (MergeablePropInterface $prop) => $prop instanceof ScrollProp);
+        $scrollProps = $scrollProps
+            ->mapWithKeys(fn (ScrollProp $prop, string $key) => [
+                $key => $prop->metadata(in_array($key, $resetProps)),
+            ]);
+
+        return $scrollProps->isNotEmpty() ? ['scrollProps' => $scrollProps->toArray()] : [];
     }
 }

@@ -10,6 +10,9 @@ use Webwings\InertiaBundle\Prop\CallbackProp;
 use Webwings\InertiaBundle\Prop\DeferProp;
 use Webwings\InertiaBundle\Prop\MergeProp;
 use Webwings\InertiaBundle\Prop\OptionalProp;
+use Webwings\InertiaBundle\Prop\ScrollProp;
+use Webwings\InertiaBundle\ScrollProvider\ScrollMetadataProviderInterface;
+use Webwings\InertiaBundle\ScrollProvider\ScrollProviderInterface;
 
 readonly class InertiaProp
 {
@@ -46,5 +49,20 @@ readonly class InertiaProp
     public static function deepMerge(mixed $value): MergeProp
     {
         return (new MergeProp($value))->deepMerge();
+    }
+
+    public static function scroll(
+        mixed $value,
+        ScrollMetadataProviderInterface $metadata,
+        string $wrapper = ScrollProp::DEFAULT_WRAPPER,
+    ): ScrollProp {
+        return new ScrollProp($value, $metadata, $wrapper);
+    }
+
+    public static function scrollProvider(
+        ScrollProviderInterface $provider,
+        string $wrapper = ScrollProp::DEFAULT_WRAPPER,
+    ): ScrollProp {
+        return new ScrollProp(fn () => $provider->getData($wrapper), $provider, $wrapper);
     }
 }
