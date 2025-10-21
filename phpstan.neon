@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    reportUnmatchedIgnoredErrors: true
+    paths:
+        - ./src
+
+includes:
+    - ./vendor/phpstan/phpstan-symfony/rules.neon
+    - ./vendor/phpstan/phpstan-symfony/extension.neon
