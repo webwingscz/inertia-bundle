@@ -14,6 +14,10 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Twig\Environment;
 use Twig\Error\Error as TwigError;
+use Webwings\InertiaBundle\ComponentLocator\InertiaComponentLocatorInterface;
+use Webwings\InertiaBundle\ComponentResolver\InertiaComponentResolverInterface;
+use Webwings\InertiaBundle\Exception\ComponentNotFoundException;
+use Webwings\InertiaBundle\Exception\InertiaExceptionInterface;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\InertiaPage;
 use Webwings\InertiaBundle\Prop\PropInterface;
@@ -36,6 +40,8 @@ class InertiaService implements InertiaInterface
         protected readonly Environment $engine,
         protected readonly RequestStack $requestStack,
         protected readonly SerializerInterface $serializer,
+        protected readonly InertiaComponentResolverInterface $componentResolver,
+        protected readonly InertiaComponentLocatorInterface $componentLocator,
         string $rootView,
         protected readonly iterable $propProviders = [],
     ) {
@@ -124,6 +130,7 @@ class InertiaService implements InertiaInterface
     /**
      * @throws SerializerException
      * @throws TwigError
+     * @throws InertiaExceptionInterface
      */
     public function render(
         string $component,
@@ -134,6 +141,12 @@ class InertiaService implements InertiaInterface
         bool $clearHistory = false,
         bool $encryptHistory = false,
     ): Response {
+        $component = $this->componentResolver->resolve($component);
+
+        if ($this->componentLocator->exists($component) === false) {
+            throw new ComponentNotFoundException($component);
+        }
+
         $request = $this->getRequest();
         $headers = InertiaHeaders::fromRequest($request);
         $url = $url ?? $request->getRequestUri() ?: null;

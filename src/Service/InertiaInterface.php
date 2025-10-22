@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerException;
 use Twig\Error\Error as TwigError;
+use Webwings\InertiaBundle\Exception\InertiaExceptionInterface;
 use Webwings\InertiaBundle\InertiaPage;
 
 interface InertiaInterface
@@ -89,13 +90,14 @@ interface InertiaInterface
     /**
      * Create a valid HTML or JSON Inertia response based on the current request.
      *
-     * @param  string               $component path to the page component, relative to your asset root
-     * @param  array<string, mixed> $props     parameters for the page component
-     * @param  array<string, mixed> $viewData  parameters for the root twig template
-     * @param  array<string, mixed> $context   serializer context for InertiaPage serialization
-     * @param  string|null          $url       URL of the page
+     * @param  string                    $component page component name based on the configured component resolver
+     * @param  array<string, mixed>      $props     parameters for the page component
+     * @param  array<string, mixed>      $viewData  parameters for the root twig template
+     * @param  array<string, mixed>      $context   serializer context for InertiaPage serialization
+     * @param  string|null               $url       URL of the page
      * @throws TwigError
      * @throws SerializerException
+     * @throws InertiaExceptionInterface
      */
     public function render(
         string $component,

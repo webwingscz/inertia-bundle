@@ -8,6 +8,8 @@ services:
       $engine: '@twig'
       $requestStack: '@request_stack'
       $serializer: '@serializer'
+      $componentResolver: '@inertia.component_resolver.default'
+      $componentLocator: '@inertia.component_locator.default'
       $rootView: '%inertia.root_view%'
       $propProviders: !tagged_iterator inertia.prop_provider
 
@@ -45,6 +47,14 @@ services:
       $csrfCookieSecure: '%inertia.csrf.cookie.secure%'
       $csrfCookieRaw: '%inertia.csrf.cookie.raw%'
       $csrfCookieSamesite: '%inertia.csrf.cookie.samesite%'
+
+  inertia.component_resolver.default:
+    class: Webwings\InertiaBundle\ComponentResolver\DefaultComponentResolver
+    public: false
+
+  inertia.component_locator.default:
+    class: Webwings\InertiaBundle\ComponentLocator\DefaultComponentLocator
+    public: false
 
   inertia.twig:
     class: Webwings\InertiaBundle\Twig\InertiaTwigExtension
