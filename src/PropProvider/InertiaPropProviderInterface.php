@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webwings\InertiaBundle\Service;
+namespace Webwings\InertiaBundle\PropProvider;
 
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\Prop\PropInterface;

@@ -21,6 +21,7 @@ use Webwings\InertiaBundle\Exception\InertiaExceptionInterface;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\InertiaPage;
 use Webwings\InertiaBundle\Prop\PropInterface;
+use Webwings\InertiaBundle\PropProvider\InertiaPropProviderInterface;
 
 class InertiaService implements InertiaInterface
 {
