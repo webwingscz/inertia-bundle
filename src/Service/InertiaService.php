@@ -18,6 +18,7 @@ use Webwings\InertiaBundle\ComponentLocator\InertiaComponentLocatorInterface;
 use Webwings\InertiaBundle\ComponentResolver\InertiaComponentResolverInterface;
 use Webwings\InertiaBundle\Exception\ComponentNotFoundException;
 use Webwings\InertiaBundle\Exception\InertiaExceptionInterface;
+use Webwings\InertiaBundle\InertiaFlash;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\InertiaPage;
 use Webwings\InertiaBundle\Prop\PropInterface;
@@ -117,12 +118,12 @@ class InertiaService implements InertiaInterface
     /**
      * @return array<string, PropInterface>
      */
-    public function getProvidedProps(InertiaHeaders $headers): array
+    public function getProvidedProps(InertiaHeaders $headers, InertiaFlash $flash): array
     {
         $props = [];
 
         foreach ($this->propProviders as $propProvider) {
-            $props = [...$props, ...$propProvider->getInertiaProps($headers)];
+            $props = [...$props, ...$propProvider->getInertiaProps($headers, $flash)];
         }
 
         return $props;
@@ -150,9 +151,10 @@ class InertiaService implements InertiaInterface
 
         $request = $this->getRequest();
         $headers = InertiaHeaders::fromRequest($request);
+        $flash = InertiaFlash::fromRequest($request);
         $url = $url ?? $request->getRequestUri() ?: null;
         $viewData = [...$this->viewData, ...$viewData];
-        $props = [...$this->getProvidedProps($headers), ...$this->props, ...$props];
+        $props = [...$this->getProvidedProps($headers, $flash), ...$this->props, ...$props];
         $page = new InertiaPage(
             $headers,
             $component,

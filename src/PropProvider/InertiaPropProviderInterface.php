@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webwings\InertiaBundle\PropProvider;
 
+use Webwings\InertiaBundle\InertiaFlash;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\Prop\PropInterface;
 
@@ -15,5 +16,5 @@ interface InertiaPropProviderInterface
     /**
      * @return array<string, PropInterface>
      */
-    public function getInertiaProps(InertiaHeaders $headers): array;
+    public function getInertiaProps(InertiaHeaders $headers, InertiaFlash $flash): array;
 }
