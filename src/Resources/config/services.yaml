@@ -49,6 +49,15 @@ services:
       $csrfCookieRaw: '%inertia.csrf.cookie.raw%'
       $csrfCookieSamesite: '%inertia.csrf.cookie.samesite%'
 
+  inertia.subscriber.exception:
+    class: Webwings\InertiaBundle\EventSubscriber\InertiaExceptionSubscriber
+    public: false
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
+    arguments:
+      $responseFactory: '@inertia.response_factory'
+      $enabled: '%inertia.exception.enabled%'
+
   inertia.component_resolver.default:
     class: Webwings\InertiaBundle\ComponentResolver\DefaultComponentResolver
     public: false
