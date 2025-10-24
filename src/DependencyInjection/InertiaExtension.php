@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Webwings\InertiaBundle\PropProvider\InertiaPropProviderInterface;
+use Webwings\InertiaBundle\ResponseFactory\InertiaResponseFactoryInterface;
 
 class InertiaExtension extends ConfigurableExtension
 {
@@ -30,6 +31,9 @@ class InertiaExtension extends ConfigurableExtension
         $container
             ->registerForAutoconfiguration(InertiaPropProviderInterface::class)
             ->addTag('inertia.prop_provider');
+        $container
+            ->registerForAutoconfiguration(InertiaResponseFactoryInterface::class)
+            ->addTag('inertia.response_factory');
 
         $container
             ->getDefinition('inertia.service')

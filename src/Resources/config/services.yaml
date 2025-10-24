@@ -56,6 +56,12 @@ services:
     class: Webwings\InertiaBundle\ComponentLocator\DefaultComponentLocator
     public: false
 
+  inertia.response_factory:
+    class: Webwings\InertiaBundle\ResponseFactory\InertiaResponseFactory
+    public: false
+    arguments:
+      $responseFactories: !tagged_iterator { tag: inertia.response_factory, default_priority_method: getPriority }
+
   inertia.twig:
     class: Webwings\InertiaBundle\Twig\InertiaTwigExtension
     public: false
