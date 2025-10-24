@@ -37,6 +37,7 @@ services:
       - { name: kernel.event_listener, event: kernel.response }
     arguments:
       $csrfTokenManager: '@security.csrf.token_manager'
+      $responseFactory: '@inertia.response_factory'
       $csrfEnabled: '%inertia.csrf.enabled%'
       $csrfTokenName: '%inertia.csrf.token_name%'
       $csrfHeaderName: '%inertia.csrf.header_name%'
@@ -61,6 +62,12 @@ services:
     public: false
     arguments:
       $responseFactories: !tagged_iterator { tag: inertia.response_factory, default_priority_method: getPriority }
+
+  inertia.response_factory.invalid_csrf:
+    class: Webwings\InertiaBundle\ResponseFactory\InvalidCsrfTokenResponseFactory
+    public: false
+    tags:
+      - { name: inertia.response_factory }
 
   inertia.twig:
     class: Webwings\InertiaBundle\Twig\InertiaTwigExtension

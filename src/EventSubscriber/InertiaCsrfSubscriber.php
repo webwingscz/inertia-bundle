@@ -6,13 +6,14 @@ namespace Webwings\InertiaBundle\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Webwings\InertiaBundle\Exception\InvalidCsrfTokenException;
 use Webwings\InertiaBundle\InertiaHeaders;
+use Webwings\InertiaBundle\ResponseFactory\InertiaResponseFactory;
 
 class InertiaCsrfSubscriber implements EventSubscriberInterface
 {
@@ -25,6 +26,7 @@ class InertiaCsrfSubscriber implements EventSubscriberInterface
      */
     public function __construct(
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
+        private readonly InertiaResponseFactory $responseFactory,
         private readonly bool $csrfEnabled = false,
         private readonly string $csrfTokenName = self::DEFAULT_CSRF_TOKEN_NAME,
         private readonly string $csrfHeaderName = self::DEFAULT_CSRF_HEADER_NAME,
@@ -62,7 +64,10 @@ class InertiaCsrfSubscriber implements EventSubscriberInterface
         $csrfToken = new CsrfToken($this->csrfTokenName, $request->headers->get($this->csrfHeaderName));
 
         if ($this->csrfTokenManager->isTokenValid($csrfToken) === false) {
-            $event->setResponse(new Response(status: Response::HTTP_FORBIDDEN));
+            $throwable = new InvalidCsrfTokenException();
+            $response = $this->responseFactory->handle($request, $throwable) ?? throw $throwable;
+
+            $event->setResponse($response);
         }
     }
 
