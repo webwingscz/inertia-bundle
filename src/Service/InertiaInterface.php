@@ -11,6 +11,8 @@ use Webwings\InertiaBundle\InertiaPage;
 
 interface InertiaInterface
 {
+    public const string PROP_ERRORS = 'errors';
+
     /**
      * Share a value across all Inertia responses.
      */

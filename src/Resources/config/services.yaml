@@ -66,6 +66,12 @@ services:
     class: Webwings\InertiaBundle\ComponentLocator\DefaultComponentLocator
     public: false
 
+  inertia.prop_provider.errors:
+    class: Webwings\InertiaBundle\PropProvider\ErrorsPropProvider
+    public: false
+    tags:
+      - { name: inertia.prop_provider }
+
   inertia.response_factory:
     class: Webwings\InertiaBundle\ResponseFactory\InertiaResponseFactory
     public: false
@@ -77,6 +83,14 @@ services:
     public: false
     tags:
       - { name: inertia.response_factory }
+
+  inertia.response_factory.validation_failed:
+    class: Webwings\InertiaBundle\ResponseFactory\ValidationFailedResponseFactory
+    public: false
+    tags:
+      - { name: inertia.response_factory }
+    arguments:
+      $translator: '@translator'
 
   inertia.twig:
     class: Webwings\InertiaBundle\Twig\InertiaTwigExtension
