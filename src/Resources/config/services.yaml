@@ -76,19 +76,19 @@ services:
     class: Webwings\InertiaBundle\ResponseFactory\InertiaResponseFactory
     public: false
     arguments:
-      $responseFactories: !tagged_iterator { tag: inertia.response_factory, default_priority_method: getPriority }
+      $responseFactories: !tagged_iterator inertia.response_factory
 
   inertia.response_factory.invalid_csrf:
     class: Webwings\InertiaBundle\ResponseFactory\InvalidCsrfTokenResponseFactory
     public: false
     tags:
-      - { name: inertia.response_factory }
+      - { name: inertia.response_factory, priority: -255 }
 
   inertia.response_factory.validation_failed:
     class: Webwings\InertiaBundle\ResponseFactory\ValidationFailedResponseFactory
     public: false
     tags:
-      - { name: inertia.response_factory }
+      - { name: inertia.response_factory, priority: -255 }
     arguments:
       $translator: '@translator'
 

@@ -28,11 +28,6 @@ readonly class ValidationFailedResponseFactory implements InertiaResponseFactory
     {
     }
 
-    public static function getPriority(): int
-    {
-        return -255;
-    }
-
     public function isHandling(Request $request, Throwable $throwable): Throwable|null
     {
         return $this->extractThrowable($throwable, ValidationFailedException::class);
