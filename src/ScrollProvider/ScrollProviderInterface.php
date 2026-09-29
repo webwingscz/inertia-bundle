@@ -9,5 +9,8 @@ namespace Webwings\InertiaBundle\ScrollProvider;
  */
 interface ScrollProviderInterface extends ScrollMetadataProviderInterface
 {
-    public function getData(string $wrapper): mixed;
+    /**
+     * @param string|null $wrapper key to put the items under, null to return the items unwrapped
+     */
+    public function getData(string|null $wrapper): mixed;
 }
