@@ -14,7 +14,6 @@
     "ext-json": "*",
     "symfony/config": "^7.0|^8.0",
     "symfony/dependency-injection": "^7.0|^8.0",
-    "symfony/http-client": "^7.0|^8.0",
     "symfony/http-kernel": "^7.0|^8.0",
     "symfony/security-csrf": "^7.0|^8.0",
     "symfony/serializer": "^7.0|^8.0",
