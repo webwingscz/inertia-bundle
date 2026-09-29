@@ -11,15 +11,12 @@ use Throwable;
 /**
  * A class that can transform Throwable to a Response.
  *
+ * Factories are evaluated by priority, set with #[AsTaggedItem(priority: ...)] or on the service tag.
+ *
  * @template T of Throwable
  */
 interface InertiaResponseFactoryInterface
 {
-    /**
-     * Get priority by which the factories are evaluated.
-     */
-    public static function getPriority(): int;
-
     /**
      * Return throwable to handle if this factory can handle the supplied throwable.
      *

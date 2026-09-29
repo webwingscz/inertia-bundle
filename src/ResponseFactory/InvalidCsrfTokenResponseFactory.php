@@ -19,11 +19,6 @@ readonly class InvalidCsrfTokenResponseFactory implements InertiaResponseFactory
     use RedirectBackResponseFactoryTrait;
     use ExtractThrowableResponseFactoryTrait;
 
-    public static function getPriority(): int
-    {
-        return -255;
-    }
-
     public function isHandling(Request $request, Throwable $throwable): Throwable|null
     {
         return $this->extractThrowable($throwable, InvalidCsrfTokenException::class);
