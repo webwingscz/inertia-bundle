@@ -90,7 +90,7 @@ services:
     tags:
       - { name: inertia.response_factory }
     arguments:
-      $translator: '@translator'
+      $translator: '@?translator'
 
   inertia.twig:
     class: Webwings\InertiaBundle\Twig\InertiaTwigExtension
