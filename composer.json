@@ -1,6 +1,6 @@
 {
   "name": "webwingscz/inertia-bundle",
-  "description": "Server-side adapter for Symfony 7 and Inertia.js v2",
+  "description": "Server-side adapter for Symfony 7/8 and Inertia.js v2",
   "homepage": "https://github.com/webwingscz/inertia-bundle",
   "type": "symfony-bundle",
   "license": "MIT",
@@ -12,24 +12,24 @@
   "require": {
     "php": "^8.3",
     "ext-json": "*",
-    "symfony/config": "^7.0",
-    "symfony/dependency-injection": "^7.0",
-    "symfony/http-client": "^7.0",
-    "symfony/http-kernel": "^7.0",
-    "symfony/security-csrf": "^7.0",
-    "symfony/serializer": "^7.0",
-    "symfony/twig-bundle": "^7.0",
+    "symfony/config": "^7.0|^8.0",
+    "symfony/dependency-injection": "^7.0|^8.0",
+    "symfony/http-client": "^7.0|^8.0",
+    "symfony/http-kernel": "^7.0|^8.0",
+    "symfony/security-csrf": "^7.0|^8.0",
+    "symfony/serializer": "^7.0|^8.0",
+    "symfony/twig-bundle": "^7.0|^8.0",
     "twig/twig": "^2.12|^3.0",
-    "illuminate/collections": "^11.46|^12.34"
+    "illuminate/collections": "^11.46|^12.34|^13.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.64",
     "phpstan/phpstan": "^2.1",
     "phpstan/phpstan-symfony": "^2.0",
-    "symfony/framework-bundle": "^7.0",
-    "symfony/validator": "^7.0",
-    "symfony/var-dumper": "^7.0",
-    "symfony/yaml": "^7.0",
+    "symfony/framework-bundle": "^7.0|^8.0",
+    "symfony/validator": "^7.0|^8.0",
+    "symfony/var-dumper": "^7.0|^8.0",
+    "symfony/yaml": "^7.0|^8.0",
     "doctrine/orm": "^3.3"
   },
   "scripts": {
