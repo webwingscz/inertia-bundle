@@ -1,4 +1,4 @@
-# Server-side adapter for Symfony 7 and Inertia.js v2
+# Server-side adapter for Symfony 7/8 and Inertia.js v2
 
 Heavily inspired by the [Laravel adapter](https://github.com/inertiajs/inertia-laravel) and [official Symfony bundle](https://github.com/SkipTheDragon/inertia-bundle).
 

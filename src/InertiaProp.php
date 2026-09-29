@@ -54,14 +54,14 @@ readonly class InertiaProp
     public static function scroll(
         mixed $value,
         ScrollMetadataProviderInterface $metadata,
-        string $wrapper = ScrollProp::DEFAULT_WRAPPER,
+        string|null $wrapper = ScrollProp::DEFAULT_WRAPPER,
     ): ScrollProp {
         return new ScrollProp($value, $metadata, $wrapper);
     }
 
     public static function scrollProvider(
         ScrollProviderInterface $provider,
-        string $wrapper = ScrollProp::DEFAULT_WRAPPER,
+        string|null $wrapper = ScrollProp::DEFAULT_WRAPPER,
     ): ScrollProp {
         return new ScrollProp(fn () => $provider->getData($wrapper), $provider, $wrapper);
     }

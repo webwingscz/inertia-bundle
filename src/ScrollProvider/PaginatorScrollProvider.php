@@ -40,10 +40,10 @@ class PaginatorScrollProvider extends LimitOffsetScrollMetadataProvider implemen
     }
 
     /**
-     * @return array<string, Traversable<array-key, T>>
+     * @return array<string, Traversable<array-key, T>>|Traversable<array-key, T>
      */
-    public function getData(string $wrapper): mixed
+    public function getData(string|null $wrapper): mixed
     {
-        return [$wrapper => $this->paginator];
+        return $wrapper === null ? $this->paginator : [$wrapper => $this->paginator];
     }
 }

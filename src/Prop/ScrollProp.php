@@ -25,10 +25,13 @@ class ScrollProp extends BasicProp implements MergeablePropInterface
 
     public const string DEFAULT_WRAPPER = 'data';
 
+    /**
+     * @param string|null $wrapper key holding the items inside the value, null when the value itself is the list of items
+     */
     public function __construct(
         mixed $value,
         public readonly ScrollMetadataProviderInterface $metadata,
-        public readonly string $wrapper = self::DEFAULT_WRAPPER,
+        public readonly string|null $wrapper = self::DEFAULT_WRAPPER,
     ) {
         parent::__construct($value);
         $this->merge();
@@ -42,9 +45,11 @@ class ScrollProp extends BasicProp implements MergeablePropInterface
 
     public function configureMergeIntent(InertiaHeaders $headers): static
     {
+        $path = $this->wrapper ?? true;
+
         return $headers->getMergeIntent() === 'prepend'
-            ? $this->prepend($this->wrapper)
-            : $this->append($this->wrapper);
+            ? $this->prepend($path)
+            : $this->append($path);
     }
 
     /**

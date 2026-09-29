@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webwings\InertiaBundle\PropProvider;
 
+use ArrayObject;
 use Webwings\InertiaBundle\InertiaFlash;
 use Webwings\InertiaBundle\InertiaHeaders;
 use Webwings\InertiaBundle\InertiaProp;
@@ -17,7 +18,8 @@ class ErrorsPropProvider implements InertiaPropProviderInterface
     public function getInertiaProps(InertiaHeaders $headers, InertiaFlash $flash): array
     {
         return [
-            InertiaInterface::PROP_ERRORS => InertiaProp::always($flash->getErrors()),
+            // ArrayObject keeps empty errors serialized as {} instead of []
+            InertiaInterface::PROP_ERRORS => InertiaProp::always(new ArrayObject($flash->getErrors())),
         ];
     }
 }
